@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="@dimen/default_padding_8dp"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvAlbumTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:padding="@dimen/default_padding_8dp"
+        android:textSize="@dimen/text_size_album_title" />
+
+    <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+        android:id="@+id/rvPhotos"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_rv_photos_height"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="@dimen/default_padding_16dp"
+        android:background="@color/line_gray"/>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

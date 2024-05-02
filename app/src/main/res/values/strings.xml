@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PhotoApp</string>
+
+    <string name="title_albums">Albums</string>
+    <string name="title_favorites">Favorites</string>
+    <string name="ok">OK</string>
+    <string name="text_album_name">"Album %1$d %2$s"</string>
+</resources>

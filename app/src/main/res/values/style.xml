@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.Packer.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.Packer.PopupOverlay" parent="ThemeOverlay.AppCompat.Dark" />
+
+    <style name="NavigationViewClay">
+        <item name="android:listDivider">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
+
+    <style name="LabelMain" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/text_color_gray</item>
+        <item name="android:textSize">@dimen/text_size_main</item>
+    </style>
+
+    <style name="LabelDegreeHome" parent="LabelMain">
+        <item name="android:textSize">@dimen/text_size_album_title</item>
+    </style>
+</resources>
