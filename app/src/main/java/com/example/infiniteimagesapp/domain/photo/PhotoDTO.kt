@@ -1,4 +1,4 @@
-package com.example.infiniteimagesapp.domain.image
+package com.example.infiniteimagesapp.domain.photo
 
 data class PhotoDTO(
     val albumId: Int,

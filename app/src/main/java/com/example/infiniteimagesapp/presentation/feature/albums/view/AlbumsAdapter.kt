@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.infiniteimagesapp.R
 import com.example.infiniteimagesapp.databinding.RvItemAlbumBinding
-import com.example.infiniteimagesapp.domain.mapper.AlbumWithPhotos
+import com.example.infiniteimagesapp.domain.modles.AlbumWithPhotos
 
 class AlbumsAdapter(private val albums: MutableList<AlbumWithPhotos>) :
 RecyclerView.Adapter<AlbumsAdapter.AlbumsViewHolder>() {

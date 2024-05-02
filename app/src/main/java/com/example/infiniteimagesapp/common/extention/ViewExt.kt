@@ -12,7 +12,6 @@ import com.example.infiniteimagesapp.common.util.Event
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 
-//TODO may produce nullPointerException
 lateinit var dialog: AlertDialog
 
 fun Fragment.showErrorDialog(errorText: String) {

@@ -1,13 +1,14 @@
 package com.example.infiniteimagesapp.di
 
 import com.example.infiniteimagesapp.data.remote.PhotosApiService
-import com.example.infiniteimagesapp.domain.utils.PhotosUtil
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import org.koin.dsl.module
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
+const val baseUrl = "https://jsonplaceholder.typicode.com"
 
 val createNetworkModule = module {
     single {
@@ -22,7 +23,7 @@ val createNetworkModule = module {
 
 private fun providePhotoApi(okHttpClient: OkHttpClient): PhotosApiService {
     return Retrofit.Builder()
-        .baseUrl(PhotosUtil.baseUrl)
+        .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .client(okHttpClient)

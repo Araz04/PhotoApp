@@ -8,7 +8,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.bumptech.glide.request.RequestOptions
 import com.example.infiniteimagesapp.R
 import com.example.infiniteimagesapp.databinding.RvItemPhotoBinding
-import com.example.infiniteimagesapp.domain.mapper.Photo
+import com.example.infiniteimagesapp.domain.entities.Photo
 
 class PhotosAdapter(private val photos: MutableList<Photo>) :
 RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {

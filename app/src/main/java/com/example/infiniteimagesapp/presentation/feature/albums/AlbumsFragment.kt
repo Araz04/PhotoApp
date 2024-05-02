@@ -8,8 +8,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
 import com.example.infiniteimagesapp.common.base.BaseFragment
 import com.example.infiniteimagesapp.databinding.FragmentAlbumsBinding
-import com.example.infiniteimagesapp.domain.mapper.Album
-import com.example.infiniteimagesapp.domain.mapper.AlbumWithPhotos
+import com.example.infiniteimagesapp.domain.entities.Album
+import com.example.infiniteimagesapp.domain.modles.AlbumWithPhotos
 import com.example.infiniteimagesapp.presentation.feature.albums.view.AlbumsAdapter
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
@@ -62,31 +62,10 @@ class AlbumsFragment : BaseFragment() {
 
     private fun initData() {
         lifecycleScope.launch {
-            mViewModel.getAllSavedAlbums().collect() { albums ->
-                    fetchAlbumsWithPhotos(albums)
+            mViewModel.getAlbumsWithPhotos().collect() { albumsWithPhotosList ->
+                albumsAdapter.addAllItems(albumsWithPhotosList)
+                hideSwipeRefresh()
             }
-        }
-    }
-
-    private fun fetchAlbumsWithPhotos(albums: List<Album>) {
-        lifecycleScope.launch {
-            val albumsWithPhotosList = mutableListOf<AlbumWithPhotos>()
-            albums.forEach { album ->
-                launch {
-                    mViewModel.getSavedPhotos(album.id).collect { photos ->
-                        val albumWithPhotos = AlbumWithPhotos(album, photos.toMutableList())
-                        albumsWithPhotosList.add(albumWithPhotos)
-                        // Check if we have collected photos for all albums
-                        if (albumsWithPhotosList.size == albums.size) {
-                            // Update the UI once all photos are collected
-                            val sortedItems = albumsWithPhotosList.sortedBy { it.album.id }
-                            albumsAdapter.addAllItems(sortedItems)
-                        }
-                    }
-                }
-            }
-            hideSwipeRefresh()
-
         }
     }
 

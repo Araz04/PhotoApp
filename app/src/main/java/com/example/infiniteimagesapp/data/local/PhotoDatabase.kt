@@ -2,8 +2,8 @@ package com.example.infiniteimagesapp.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.example.infiniteimagesapp.domain.mapper.Album
-import com.example.infiniteimagesapp.domain.mapper.Photo
+import com.example.infiniteimagesapp.domain.entities.Album
+import com.example.infiniteimagesapp.domain.entities.Photo
 
 @Database(entities = [Album::class,  Photo::class], version = 1, exportSchema = false)
 abstract class PhotoDatabase: RoomDatabase() {

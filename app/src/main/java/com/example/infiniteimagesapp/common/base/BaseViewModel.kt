@@ -6,7 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 
 open class BaseViewModel : ViewModel()  {
-    // FOR SNACKBAR ERROR HANDLER
     private val _progressBar = MutableStateFlow(Event(false))
     val progressBar: Flow<Event<Boolean>> get() = _progressBar
 
@@ -14,11 +13,9 @@ open class BaseViewModel : ViewModel()  {
         _progressBar.value = Event(visible)
     }
 
-    // FOR ERROR DIALOG HANDLER
     private val _dialogError = MutableStateFlow(Event(0))
     val dialogError: Flow<Event<Int>> get() = _dialogError
 
-    // FOR ERROR DIALOG STRING HANDLER
     private val _dialogErrorString = MutableStateFlow(Event(""))
     val dialogErrorString: Flow<Event<String>> get() = _dialogErrorString
 

@@ -4,10 +4,4 @@
         android:id="@+id/navigation_albums"
         android:icon="@drawable/ic_grain"
         android:title="@string/title_albums" />
-
-    <item
-        android:id="@+id/navigation_favorites"
-        android:icon="@drawable/ic_photo_album"
-        android:title="@string/title_favorites" />
-
 </menu>

@@ -3,8 +3,9 @@ package com.example.infiniteimagesapp.data.repository.impl
 import com.example.infiniteimagesapp.data.local.AlbumDao
 import com.example.infiniteimagesapp.data.local.PhotoDao
 import com.example.infiniteimagesapp.data.repository.repo.LocalDatabaseRepository
-import com.example.infiniteimagesapp.domain.mapper.Album
-import com.example.infiniteimagesapp.domain.mapper.Photo
+import com.example.infiniteimagesapp.domain.entities.Album
+import com.example.infiniteimagesapp.domain.entities.Photo
+import com.example.infiniteimagesapp.domain.modles.AlbumWithPhotos
 import kotlinx.coroutines.flow.Flow
 
 class LocalDatabaseRepositoryImpl(private val albumDao: AlbumDao, private val photoDao: PhotoDao): LocalDatabaseRepository {
@@ -12,8 +13,8 @@ class LocalDatabaseRepositoryImpl(private val albumDao: AlbumDao, private val ph
         return albumDao.getAllAlbums()
     }
 
-    override suspend fun insertAlbum(album: Album) {
-        albumDao.insert(album)
+    override fun getAllAlbumsWithPhotos(): Flow<List<AlbumWithPhotos>> {
+        return albumDao.getAllAlbumsWithPhotos()
     }
 
     override suspend fun insertAllAlbums(albums: List<Album>) {
@@ -28,10 +29,6 @@ class LocalDatabaseRepositoryImpl(private val albumDao: AlbumDao, private val ph
         albumDao.deleteAllAlbums()
     }
 
-    override suspend fun insertAPhoto(photo: Photo) {
-        photoDao.insert(photo)
-    }
-
     override suspend fun insertAllPhotos(photos: List<Photo>) {
         photoDao.insertAllPhotos(photos)
     }
@@ -42,9 +39,5 @@ class LocalDatabaseRepositoryImpl(private val albumDao: AlbumDao, private val ph
 
     override suspend fun deleteAllPhotos() {
         photoDao.deleteAllPhotos()
-    }
-
-    override suspend fun deletePhotosByAlbumId(albumId: Int) {
-        photoDao.deletePhotosByAlbumId(albumId)
     }
 }

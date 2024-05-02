@@ -6,7 +6,7 @@ import com.example.infiniteimagesapp.data.remote.PhotosApiService
 import com.example.infiniteimagesapp.data.repository.repo.PhotosRepository
 import com.example.infiniteimagesapp.data.repository.utils.Response
 import com.example.infiniteimagesapp.domain.album.AlbumDTO
-import com.example.infiniteimagesapp.domain.image.PhotoDTO
+import com.example.infiniteimagesapp.domain.photo.PhotoDTO
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
@@ -34,7 +34,7 @@ class PhotosRepositoryImpl(
         try {
             val response = photosApiService.getImagesByAlbumId(albumId)
             emit(Response.Success(response))
-        }catch (e: HttpException) {
+        } catch (e: HttpException) {
             emit(Response.Error(message = "Oops, something went wrong"))
         } catch (e: IOException) {
             emit(Response.Error(message = "Couldn't reach server check your internet connection"))
