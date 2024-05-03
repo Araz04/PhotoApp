@@ -13,6 +13,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "PhotoApp"
+rootProject.name = "PhotoAlbumsApp"
 include(":app")
  

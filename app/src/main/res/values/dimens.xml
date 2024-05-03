@@ -15,6 +15,7 @@
     <dimen name="text_size_small">12sp</dimen>
     <dimen name="text_size_middle">14sp</dimen>
     <dimen name="text_size_main">16sp</dimen>
+    <dimen name="text_size_albums_message">26sp</dimen>
 
     <dimen name="item_image_measure">120dp</dimen>
     <dimen name="item_rv_photos_height">140dp</dimen>

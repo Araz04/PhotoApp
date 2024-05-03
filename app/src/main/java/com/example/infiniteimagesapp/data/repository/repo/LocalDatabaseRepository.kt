@@ -20,4 +20,6 @@ interface LocalDatabaseRepository {
     suspend fun insertAllPhotos(albums: List<Photo>)
 
     suspend fun deleteAllPhotos()
+
+    suspend fun isAlbumsEmpty(): Boolean
 }

@@ -40,4 +40,8 @@ class LocalDatabaseRepositoryImpl(private val albumDao: AlbumDao, private val ph
     override suspend fun deleteAllPhotos() {
         photoDao.deleteAllPhotos()
     }
+
+    override suspend fun isAlbumsEmpty(): Boolean {
+        return albumDao.isTableEmpty()
+    }
 }

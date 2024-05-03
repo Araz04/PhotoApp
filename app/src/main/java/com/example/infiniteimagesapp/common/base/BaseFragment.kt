@@ -1,10 +1,11 @@
 package com.example.infiniteimagesapp.common.base
 
 import android.content.Context
+import android.net.ConnectivityManager
+import android.net.NetworkCapabilities
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.example.infiniteimagesapp.common.extention.setupProgressDialog
 
 abstract class BaseFragment: Fragment(), DefaultLifecycleObserver {
         abstract fun getViewModel(): BaseViewModel
@@ -15,7 +16,6 @@ abstract class BaseFragment: Fragment(), DefaultLifecycleObserver {
         }
 
         private fun onCreated(){
-            setupProgressDialog(this, getViewModel().progressBar)
         }
 
         override fun onAttach(context: Context) {
@@ -27,4 +27,20 @@ abstract class BaseFragment: Fragment(), DefaultLifecycleObserver {
             super.onDetach()
             lifecycle.removeObserver(this)
         }
+
+    fun isInternetAvailable(context: Context): Boolean {
+        var result = false
+        val connectivityManager =
+            context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkCapabilities = connectivityManager.activeNetwork ?: return false
+        val actNw =
+            connectivityManager.getNetworkCapabilities(networkCapabilities) ?: return false
+        result = when {
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_WIFI) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_CELLULAR) -> true
+            actNw.hasTransport(NetworkCapabilities.TRANSPORT_ETHERNET) -> true
+            else -> false
+        }
+        return result
+    }
 }

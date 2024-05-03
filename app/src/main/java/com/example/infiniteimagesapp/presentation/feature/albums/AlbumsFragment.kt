@@ -6,11 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.example.infiniteimagesapp.R
 import com.example.infiniteimagesapp.common.base.BaseFragment
+import com.example.infiniteimagesapp.common.extention.showErrorDialog
 import com.example.infiniteimagesapp.databinding.FragmentAlbumsBinding
-import com.example.infiniteimagesapp.domain.entities.Album
-import com.example.infiniteimagesapp.domain.modles.AlbumWithPhotos
 import com.example.infiniteimagesapp.presentation.feature.albums.view.AlbumsAdapter
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.launch
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,12 +41,20 @@ class AlbumsFragment : BaseFragment() {
         initData()
     }
 
-    private fun initView(){
+    private fun initView() {
         binding.swipeRefreshLayout.setOnRefreshListener {
-            showSwipeRefresh()
-            mViewModel.getAlbums()
+            if (isInternetAvailable(requireContext())) {
+                showSwipeRefresh()
+                mViewModel.getAlbums()
+            } else {
+                Snackbar.make(
+                    binding.swipeRefreshLayout,
+                    getString(R.string.no_network_connection),
+                    Snackbar.LENGTH_LONG
+                ).show()
+                hideSwipeRefresh()
+            }
         }
-        showSwipeRefresh()
     }
 
     private fun initAlbumAdapter() {
@@ -63,21 +73,59 @@ class AlbumsFragment : BaseFragment() {
     private fun initData() {
         lifecycleScope.launch {
             mViewModel.getAlbumsWithPhotos().collect() { albumsWithPhotosList ->
-                albumsAdapter.addAllItems(albumsWithPhotosList)
-                hideSwipeRefresh()
+                if (albumsWithPhotosList.isNotEmpty()) {
+                   hideNoDataText()
+                    albumsAdapter.addAllItems(albumsWithPhotosList)
+                } else {
+                    showNoDataText()
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            mViewModel.isLoading.collect { isLoading ->
+                binding.swipeRefreshLayout.isRefreshing = isLoading
+            }
+        }
+
+        lifecycleScope.launch {
+            mViewModel.errorMessage.collect { errorMessage ->
+                if (errorMessage.isNotBlank()) {
+                    showErrorDialog(errorMessage)
+                }
+            }
+        }
+
+        lifecycleScope.launch {
+            mViewModel.isTableEmpty.collect{isTableEmpty ->
+                if (isTableEmpty){
+                    showNoDataText()
+                }else{
+                    hideNoDataText()
+                }
             }
         }
     }
 
-    private fun showSwipeRefresh(){
-        if (!binding.swipeRefreshLayout.isRefreshing){
+    private fun showSwipeRefresh() {
+        if (!binding.swipeRefreshLayout.isRefreshing) {
             binding.swipeRefreshLayout.isRefreshing = true
         }
     }
 
-    private fun hideSwipeRefresh(){
-        if (binding.swipeRefreshLayout.isRefreshing){
+    private fun hideSwipeRefresh() {
+        if (binding.swipeRefreshLayout.isRefreshing) {
             binding.swipeRefreshLayout.isRefreshing = false
         }
+    }
+
+    private fun showNoDataText(){
+        binding.tvMessage.visibility = View.VISIBLE
+        binding.rvAlbums.visibility = View.GONE
+    }
+
+    private fun hideNoDataText(){
+        binding.tvMessage.visibility = View.GONE
+        binding.rvAlbums.visibility = View.VISIBLE
     }
 }

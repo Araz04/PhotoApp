@@ -43,36 +43,13 @@ fun Fragment.hideProgressDialog() {
     }
 }
 
-fun Fragment.setupProgressDialog(
-    lifecycleOwner: LifecycleOwner,
-    progressDialogFlow: Flow<Event<Boolean>>
-) {
-    val builder: AlertDialog.Builder = AlertDialog.Builder(context)
-    builder.setCancelable(false)
-    val dialog = builder.create()
-
-    lifecycleOwner.lifecycleScope.launch {
-        progressDialogFlow.collect { event ->
-            event.getContentIfNotHandled()?.let { isShow ->
-                context?.let {
-                    if (isShow) {
-                        showProgressDialog()
-                    } else {
-                        hideProgressDialog()
-                    }
-                }
-            }
-        }
-    }
-}
-
 fun Activity.setupProgressDialog(
     lifecycleOwner: LifecycleOwner,
     progressDialogEvent: Flow<Event<Boolean>>
 ) {
     val builder: AlertDialog.Builder = AlertDialog.Builder(this)
     builder.setCancelable(false)
-//    builder.setView(R.layout.loading_dialog)
+    builder.setView(R.layout.loading_dialog)
     dialog = builder.create()
     lifecycleOwner.lifecycleScope.launch {
         progressDialogEvent.collect{event ->
@@ -107,19 +84,6 @@ fun Activity.hideProgressDialog() {
             e.printStackTrace()
         } catch (e: Exception) {
             e.printStackTrace()
-        }
-    }
-}
-
-fun Fragment.setupBackHandler(
-    lifecycleOwner: LifecycleOwner,
-    backEvent: Flow<Event<Boolean>>
-) {
-    lifecycleOwner.lifecycleScope.launch {
-        backEvent.collect { event ->
-            event.getContentIfNotHandled()?.let {
-                activity?.onBackPressed()
-            }
         }
     }
 }

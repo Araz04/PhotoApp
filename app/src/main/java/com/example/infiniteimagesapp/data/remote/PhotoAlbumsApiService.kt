@@ -5,7 +5,7 @@ import com.example.infiniteimagesapp.domain.photo.PhotoDTO
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface PhotosApiService {
+interface PhotoAlbumsApiService {
     @GET("/albums")
     suspend fun getAlbums(
     ): List<AlbumDTO>

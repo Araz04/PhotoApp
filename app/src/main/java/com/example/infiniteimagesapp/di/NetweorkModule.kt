@@ -1,6 +1,6 @@
 package com.example.infiniteimagesapp.di
 
-import com.example.infiniteimagesapp.data.remote.PhotosApiService
+import com.example.infiniteimagesapp.data.remote.PhotoAlbumsApiService
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,14 +21,14 @@ val createNetworkModule = module {
     single { providePhotoApi(get()) }
 }
 
-private fun providePhotoApi(okHttpClient: OkHttpClient): PhotosApiService {
+private fun providePhotoApi(okHttpClient: OkHttpClient): PhotoAlbumsApiService {
     return Retrofit.Builder()
         .baseUrl(baseUrl)
         .addConverterFactory(GsonConverterFactory.create())
         .addCallAdapterFactory(CoroutineCallAdapterFactory())
         .client(okHttpClient)
         .build()
-        .create(PhotosApiService::class.java)
+        .create(PhotoAlbumsApiService::class.java)
 }
 
 private fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {

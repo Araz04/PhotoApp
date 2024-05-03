@@ -1,8 +1,12 @@
 <resources>
-    <string name="app_name">PhotoApp</string>
+    <string name="app_name">PhotoAlbumsApp</string>
 
     <string name="title_albums">Albums</string>
     <string name="title_favorites">Favorites</string>
     <string name="ok">OK</string>
     <string name="text_album_name">"Album %1$d %2$s"</string>
+    <string name="no_network_connection">No Network Connection</string>
+    <string name="no_network_connection_message">No network connection, turn it on and pull to refresh</string>
+    <string name="no_photos_yet_please_turn_on_network_and_pull_to_refresh_to_get_latest_albums_and_photos">No photos yet, please turn on network and pull to refresh to get latest albums and photos</string>
+    <string name="refresh">Refresh</string>
 </resources>

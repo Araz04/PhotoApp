@@ -27,4 +27,7 @@ interface AlbumDao {
     @Transaction
     @Query("SELECT * FROM albums")
     fun getAllAlbumsWithPhotos(): Flow<List<AlbumWithPhotos>>
+
+    @Query("SELECT COUNT(*) == 0 FROM albums")
+    suspend fun isTableEmpty(): Boolean
 }

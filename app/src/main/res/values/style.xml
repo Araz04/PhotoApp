@@ -15,7 +15,10 @@
         <item name="android:textSize">@dimen/text_size_main</item>
     </style>
 
-    <style name="LabelDegreeHome" parent="LabelMain">
-        <item name="android:textSize">@dimen/text_size_album_title</item>
+    <style name="LabelAlbumMessage" parent="LabelMain">
+        <item name="android:textSize">@dimen/text_size_albums_message</item>
+        <item name="android:gravity">center</item>
+        <item name="android:padding">@dimen/default_padding_24dp</item>
+
     </style>
 </resources>
