@@ -2,11 +2,17 @@ package com.example.infiniteimagesapp.presentation.feature.albums
 
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
+import androidx.core.view.isVisible
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.infiniteimagesapp.R
 import com.example.infiniteimagesapp.common.base.BaseFragment
 import com.example.infiniteimagesapp.common.extention.showErrorDialog
@@ -18,6 +24,7 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class AlbumsFragment : BaseFragment() {
     private val mViewModel: AlbumsViewModel by viewModel()
+
     private var _binding: FragmentAlbumsBinding? = null
     private val binding get() = _binding!!
 
@@ -36,24 +43,42 @@ class AlbumsFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initView()
+        initMenu()
         initAlbumAdapter()
         initData()
     }
 
-    private fun initView() {
-        binding.swipeRefreshLayout.setOnRefreshListener {
-            if (isInternetAvailable(requireContext())) {
-                showSwipeRefresh()
-                mViewModel.getAlbums()
-            } else {
-                Snackbar.make(
-                    binding.swipeRefreshLayout,
-                    getString(R.string.no_network_connection),
-                    Snackbar.LENGTH_LONG
-                ).show()
-                hideSwipeRefresh()
+    private fun initMenu() {
+        val menuHost: MenuHost = requireActivity()
+        menuHost.addMenuProvider(object : MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.album_menu, menu)
             }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                return when (menuItem.itemId) {
+                    R.id.action_refresh -> {
+                        refreshAlbums()
+                        true
+                    }
+
+                    else -> false
+                }
+            }
+        }, viewLifecycleOwner, Lifecycle.State.RESUMED)
+    }
+
+    private fun refreshAlbums() {
+        if (isInternetAvailable(requireContext())) {
+            showSwipeRefresh()
+            mViewModel.getAlbums()
+        } else {
+            Snackbar.make(
+                binding.rvAlbums,
+                getString(R.string.no_network_connection),
+                Snackbar.LENGTH_LONG
+            ).show()
+            hideSwipeRefresh()
         }
     }
 
@@ -61,21 +86,19 @@ class AlbumsFragment : BaseFragment() {
         albumsAdapter = AlbumsAdapter(mutableListOf())
         binding.rvAlbums.adapter = albumsAdapter
         binding.rvAlbums.apply {
-            setOrientation(RecyclerView.VERTICAL)
-            setInfinite(true)
-            setAlpha(false)
-            setFlat(true)
-            setIsScrollingEnabled(true)
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = albumsAdapter
             hasFixedSize()
         }
     }
 
     private fun initData() {
         lifecycleScope.launch {
+
             mViewModel.getAlbumsWithPhotos().collect() { albumsWithPhotosList ->
                 if (albumsWithPhotosList.isNotEmpty()) {
-                   hideNoDataText()
                     albumsAdapter.addAllItems(albumsWithPhotosList)
+                    hideNoDataText()
                 } else {
                     showNoDataText()
                 }
@@ -84,7 +107,7 @@ class AlbumsFragment : BaseFragment() {
 
         lifecycleScope.launch {
             mViewModel.isLoading.collect { isLoading ->
-                binding.swipeRefreshLayout.isRefreshing = isLoading
+                binding.progressBar.visibility = if (isLoading) View.VISIBLE else View.GONE
             }
         }
 
@@ -97,10 +120,10 @@ class AlbumsFragment : BaseFragment() {
         }
 
         lifecycleScope.launch {
-            mViewModel.isTableEmpty.collect{isTableEmpty ->
-                if (isTableEmpty){
+            mViewModel.isTableEmpty.collect { isTableEmpty ->
+                if (isTableEmpty) {
                     showNoDataText()
-                }else{
+                } else {
                     hideNoDataText()
                 }
             }
@@ -108,23 +131,23 @@ class AlbumsFragment : BaseFragment() {
     }
 
     private fun showSwipeRefresh() {
-        if (!binding.swipeRefreshLayout.isRefreshing) {
-            binding.swipeRefreshLayout.isRefreshing = true
+        if (!binding.progressBar.isVisible) {
+            binding.progressBar.visibility = View.VISIBLE
         }
     }
 
     private fun hideSwipeRefresh() {
-        if (binding.swipeRefreshLayout.isRefreshing) {
-            binding.swipeRefreshLayout.isRefreshing = false
+        if (binding.progressBar.isVisible) {
+            binding.progressBar.visibility = View.GONE
         }
     }
 
-    private fun showNoDataText(){
+    private fun showNoDataText() {
         binding.tvMessage.visibility = View.VISIBLE
         binding.rvAlbums.visibility = View.GONE
     }
 
-    private fun hideNoDataText(){
+    private fun hideNoDataText() {
         binding.tvMessage.visibility = View.GONE
         binding.rvAlbums.visibility = View.VISIBLE
     }

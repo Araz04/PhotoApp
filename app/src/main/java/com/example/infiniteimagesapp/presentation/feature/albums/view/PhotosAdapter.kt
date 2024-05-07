@@ -29,6 +29,7 @@ RecyclerView.Adapter<PhotosAdapter.PhotoViewHolder>() {
     fun addAllItems(items: List<Photo>) {
         photos.clear()
         photos.addAll(items)
+//        notifyItemRangeInserted(photos.size - items.size, items.size)
         notifyItemRangeInserted(photos.size - items.size, items.size)
     }
 

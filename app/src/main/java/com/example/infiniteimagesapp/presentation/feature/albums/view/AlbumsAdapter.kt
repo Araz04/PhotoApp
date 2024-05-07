@@ -27,7 +27,7 @@ RecyclerView.Adapter<AlbumsAdapter.AlbumsViewHolder>() {
     fun addAllItems(items: List<AlbumWithPhotos>) {
         albums.clear()
         albums.addAll(items)
-        notifyItemRangeInserted(albums.size - items.size, items.size)
+        notifyDataSetChanged()
     }
 
     fun removeAllItems() {

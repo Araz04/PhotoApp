@@ -15,7 +15,7 @@
         android:padding="@dimen/default_padding_8dp"
         android:textSize="@dimen/text_size_album_title" />
 
-    <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+    <com.example.infiniteimagesapp.presentation.ui.widgets.carousel.CarouselRecyclerview
         android:id="@+id/rvPhotos"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_rv_photos_height"/>
@@ -25,6 +25,5 @@
         android:layout_height="1dp"
         android:layout_marginTop="@dimen/default_padding_16dp"
         android:background="@color/line_gray"/>
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>
